@@ -75,14 +75,18 @@ const Cart = () => {
   };
 
   // ✅ Cancel order
-  const handleCancelOrder = async (id) => {
-    try {
-      await API.delete(`/orders/${id}`);
-      setOrders(orders.filter((o) => o._id !== id));
-    } catch (error) {
-      console.error("❌ Error cancelling order:", error);
-    }
-  };
+const handleCancelOrder = async (id) => {
+  const confirmCancel = window.confirm("⚠️ Are you sure you want to cancel this order?");
+  if (!confirmCancel) return; // ❌ agar user 'Cancel' kare to kuch na ho
+
+  try {
+    await API.delete(`/orders/${id}`);
+    setOrders(orders.filter((o) => o._id !== id));
+  } catch (error) {
+    console.error("❌ Error cancelling order:", error);
+  }
+};
+
 
   return (
     <main className="bg-[#1a1a1a] text-white min-h-screen py-5 px-[5%]">
