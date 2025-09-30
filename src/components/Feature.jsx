@@ -2,9 +2,9 @@ import React from "react";
 
 const Feature = () => {
   return (
-    <div>
+    <div data-scroll data-scroll-speed="2" className="md:pb-0 pb-10 ">
       {/* Features */}
-      <section
+      <section 
         id="fragrances"
         className="bg-[#3a3a3a] text-white p-[5%] text-center"
         aria-labelledby="features-heading"

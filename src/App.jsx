@@ -1,8 +1,17 @@
 import React, { useLayoutEffect, useRef } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
+import AdminDashboard from "./pages/AdminDashboard"; // ✅ naya admin page
+import AdminOrders from "./pages/AdminOrders";
+import AdminLogin from "./pages/AdminLogin";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
+
 import Home from "../src/pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const containerRef = useRef(null);
@@ -40,6 +49,29 @@ const App = () => {
     <div ref={containerRef} data-scroll-container className="overflow-x-hidden">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        {/* ✅ Direct access without ProtectedRoute */}
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+
+  {/* Admin */}
+  <Route path="/admin/login" element={<AdminLogin />} />
+  <Route
+    path="/admin/dashboard"
+    element={
+      <ProtectedAdminRoute>
+        <AdminDashboard />
+      </ProtectedAdminRoute>
+    }
+  />
+  <Route
+    path="/admin/orders"
+    element={
+      <ProtectedAdminRoute>
+        <AdminOrders />
+      </ProtectedAdminRoute>
+    }/>
       </Routes>
     </div>
   );

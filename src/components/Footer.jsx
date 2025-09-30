@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer
+    <footer data-scroll data-scroll-speed="-2"
       className="bg-[#1a1a1a] p-[5%] text-center text-white border-t border-white/10"
       role="contentinfo"
     >

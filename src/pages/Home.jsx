@@ -15,7 +15,9 @@ const App = () => {
         <Hero />
 
         {/* ✅ Features section */}
-        <Feature />
+        <section id="feature-section">
+          <Feature />
+        </section>
       </main>
 
       {/* ✅ Footer with role="contentinfo" */}
