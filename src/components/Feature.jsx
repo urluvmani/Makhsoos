@@ -29,7 +29,14 @@ const Feature = () => {
   }, []);
 
   return (
-    <section className="bg-[#2a2a2a] text-white py-[6%] px-[5%] text-center">
+    <section
+      className="
+        py-[6%] px-[5%] text-center
+        bg-gray-100 text-black
+        dark:bg-[#2a2a2a] dark:text-white
+        transition-colors duration-500
+      "
+    >
       <h2 className="text-3xl font-light mb-16 relative inline-block">
         Why <span className="text-[#a67c52]">Makhsoos</span>
         <span className="block w-[100px] h-[3px] bg-[#a67c52] mx-auto mt-3 rounded-full"></span>
@@ -40,7 +47,12 @@ const Feature = () => {
           <div
             key={i}
             ref={(el) => (cardsRef.current[i] = el)}
-            className="p-10 bg-[#1d1d1d] rounded-xl shadow-lg hover:shadow-[0_0_20px_#a67c52aa] transition"
+            className="
+              p-10 rounded-xl shadow-lg transition
+              bg-white text-black hover:shadow-[0_0_20px_#a67c52aa]
+              dark:bg-[#1d1d1d] dark:text-white
+              transition-colors duration-500
+            "
           >
             <div className="text-[#a67c52] mb-6">
               <div className="w-14 h-14 mx-auto bg-[#a67c52]/20 rounded-full flex items-center justify-center">

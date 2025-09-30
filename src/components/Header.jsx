@@ -39,7 +39,7 @@ const Header = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 500 100"
-          className="w-36 h-auto"
+          className="w-38 h-auto"
         >
           <text
             x="0"
@@ -47,7 +47,7 @@ const Header = () => {
             fill="url(#gold-gradient)"
             fontFamily="serif"
             fontWeight="lighter"
-            fontSize="110"
+            fontSize="100"
             letterSpacing="3"
           >
             Makhsoos
