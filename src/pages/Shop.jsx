@@ -21,7 +21,14 @@ const Shop = () => {
   }, []);
 
   return (
-    <main className="bg-gradient-to-b from-[#111] via-[#1a1a1a] to-[#111] text-white min-h-screen py-10 px-[5%] relative overflow-hidden">
+    <main
+      className="
+        min-h-screen py-10 px-[5%] relative overflow-hidden
+        bg-gradient-to-b from-gray-100 via-white to-gray-50 text-black
+        dark:from-[#111] dark:via-[#1a1a1a] dark:to-[#111] dark:text-white
+        transition-colors duration-500
+      "
+    >
       {/* Floating blurred background shapes */}
       <div className="absolute inset-0 -z-10 opacity-20">
         <div className="bg-gradient-to-r from-[#a67c52] to-yellow-600 w-[500px] h-[500px] rounded-full blur-[180px] absolute top-[-20%] left-[-20%]" />
@@ -58,7 +65,13 @@ const Shop = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
-                className="relative bg-[#1e1e1e]/80 backdrop-blur-md rounded-2xl shadow-xl border border-[#a67c52]/20 overflow-hidden group hover:border-[#a67c52] hover:shadow-[0_0_25px_#a67c52aa] transition-all duration-500"
+                className="
+                  relative rounded-2xl shadow-xl border overflow-hidden group 
+                  transition-all duration-500
+                  bg-white text-black border-gray-200
+                  hover:border-[#a67c52] hover:shadow-[0_0_25px_#a67c52aa]
+                  dark:bg-[#1e1e1e]/80 dark:text-white dark:border-[#a67c52]/20
+                "
               >
                 {/* Product Image */}
                 <div className="overflow-hidden">
