@@ -3,3 +3,9 @@
 .img{
     object-position: 40% center;
 }
+
+
+html, body {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS devices ke liye */
+}

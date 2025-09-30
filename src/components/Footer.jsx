@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer data-scroll data-scroll-speed="-2"
+    <footer
       className="bg-[#1a1a1a] p-[5%] text-center text-white border-t border-white/10"
       role="contentinfo"
     >
@@ -26,9 +26,6 @@ const Footer = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
             viewBox="0 0 448 512"
-            width="200px"
-            height="100px"
-
             className="w-6 h-6"
             aria-hidden="true"
           >
