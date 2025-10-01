@@ -61,9 +61,6 @@ const Shop = () => {
             return (
               <motion.div
                 key={product._id}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
                 className="
                   relative rounded-2xl shadow-xl border overflow-hidden group 

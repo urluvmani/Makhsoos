@@ -58,9 +58,6 @@ const Hero = () => {
       >
         {/* Text Section */}
         <motion.div
-          initial={{ opacity: 0, x: -80 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
           className="flex-1 md:pr-[5%]"
         >
           <h1 className="text-3xl sm:text-[3.5rem] font-light mb-6 leading-tight">
@@ -72,18 +69,12 @@ const Hero = () => {
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
             className="text-base sm:text-lg opacity-80 mb-10 max-w-[600px]"
           >
             {product.description}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
           >
             {/* Quantity Controls */}
             <div className="flex items-center gap-4 mb-6">

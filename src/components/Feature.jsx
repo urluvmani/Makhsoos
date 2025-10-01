@@ -1,32 +1,10 @@
-import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Feature = () => {
-  const cardsRef = useRef([]);
 
-  useEffect(() => {
-    cardsRef.current.forEach((card, i) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 80, rotateX: -30, scale: 0.9 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          scale: 1,
-          duration: 1,
-          delay: i * 0.2,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-          },
-        }
-      );
-    });
-  }, []);
 
   return (
     <section
@@ -46,7 +24,6 @@ const Feature = () => {
         {["Natural Fabric", "Durable Wear", "Eco Friendly"].map((title, i) => (
           <div
             key={i}
-            ref={(el) => (cardsRef.current[i] = el)}
             className="
               p-10 rounded-xl shadow-lg transition
               bg-white text-black hover:shadow-[0_0_20px_#a67c52aa]
