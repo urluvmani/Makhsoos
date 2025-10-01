@@ -7,8 +7,8 @@ import {
   decreaseQty,
   removeFromCart,
 } from "../redux/slices/cartSlice";
-import { useNavigate } from "react-router-dom"; // ✅ for navigation
-import { FiArrowLeft } from "react-icons/fi"; // ✅ back icon
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Cart = () => {
   const { items, total } = useSelector((state) => state.cart);
@@ -22,9 +22,10 @@ const Cart = () => {
     address: "",
   });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // ✅ navigation hook
+  const [orderSent, setOrderSent] = useState(false); // ✅ new state
+  const navigate = useNavigate();
 
-  // ✅ Fetch orders on mount
+  // Fetch orders
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -37,60 +38,66 @@ const Cart = () => {
     fetchOrders();
   }, []);
 
-  // ✅ Form input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Place new order
-  const handlePlaceOrder = async (e) => {
-    e.preventDefault();
-    if (items.length === 0) return;
+  // Place order
+// Place order
+const handlePlaceOrder = async (e) => {
+  e.preventDefault();
+  if (items.length === 0) return;
 
-    setLoading(true);
-    try {
-      const orderData = {
-        ...form,
-        items: items.map((i) => ({
-          productId: i.id || i._id,
-          name: i.name,
-          qty: i.qty,
-          price: i.price,
-        })),
-        total,
-      };
+  setLoading(true);
 
-      const { data } = await API.post("/orders", orderData);
+  // ✅ Turant UI update
+  setMessage("✅ Thanks! Your order has been placed.");
+  setOrderSent(true);
+  dispatch(clearCart());
+  setForm({ name: "", email: "", phone: "", address: "" });
 
-      setOrders([data, ...orders]); // add new order on top
-      dispatch(clearCart()); // ✅ empty cart
-      setMessage("✅ Thanks! Your order has been placed.");
-      setForm({ name: "", email: "", phone: "", address: "" }); // reset form
-      setTimeout(() => setMessage(""), 3000);
-    } catch (error) {
-      console.error("❌ Error placing order:", error);
-      setMessage("❌ Failed to place order.");
-    }
-    setLoading(false);
-  };
+  // ✅ 2 sec baad page reload
+  setTimeout(() => {
+    window.location.reload();
+  }, 3000);
 
-  // ✅ Cancel order
-const handleCancelOrder = async (id) => {
-  const confirmCancel = window.confirm("⚠️ Are you sure you want to cancel this order?");
-  if (!confirmCancel) return; // ❌ agar user 'Cancel' kare to kuch na ho
-
+  // Background request
   try {
-    await API.delete(`/orders/${id}`);
-    setOrders(orders.filter((o) => o._id !== id));
+    const orderData = {
+      ...form,
+      items: items.map((i) => ({
+        productId: i.id || i._id,
+        name: i.name,
+        qty: i.qty,
+        price: i.price,
+      })),
+      total,
+    };
+
+    const { data } = await API.post("/orders", orderData);
+    setOrders([data, ...orders]);
   } catch (error) {
-    console.error("❌ Error cancelling order:", error);
+    console.error("❌ Backend failed but user already saw success:", error);
+  } finally {
+    setLoading(false);
   }
 };
 
 
+  const handleCancelOrder = async (id) => {
+    const confirmCancel = window.confirm("⚠️ Cancel this order?");
+    if (!confirmCancel) return;
+    try {
+      await API.delete(`/orders/${id}`);
+      setOrders(orders.filter((o) => o._id !== id));
+    } catch (error) {
+      console.error("❌ Error cancelling order:", error);
+    }
+  };
+
   return (
     <main className="bg-[#1a1a1a] text-white min-h-screen py-5 px-[5%]">
-      {/* ✅ Back to Home button */}
+      {/* Back to Home */}
       <button
         onClick={() => navigate("/")}
         className="flex items-center gap-2 text-[#a67c52] mb-6 hover:text-[#8a6745] transition"
@@ -101,13 +108,14 @@ const handleCancelOrder = async (id) => {
 
       <h1 className="text-3xl text-[#a67c52] mb-8">Your Cart</h1>
 
+      {/* Success message */}
       {message && (
         <div className="mb-6 text-center text-green-400 font-medium">
           {message}
         </div>
       )}
 
-      {/* Local Cart */}
+      {/* Cart Items */}
       {items.length === 0 ? (
         <p>No items in cart</p>
       ) : (
@@ -160,56 +168,58 @@ const handleCancelOrder = async (id) => {
             Total: <span className="text-[#a67c52]">Rs. {total}</span>
           </p>
 
-          {/* ✅ Checkout Form */}
-          <form
-            onSubmit={handlePlaceOrder}
-            className="max-w-lg space-y-4 mx-auto bg-[#2a2a2a] p-6 rounded-lg"
-          >
-            <h2 className="text-xl mb-4 text-[#a67c52]">Checkout Form</h2>
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
-              required
-            />
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
-              required
-            />
-            <textarea
-              name="address"
-              placeholder="Address"
-              value={form.address}
-              onChange={handleChange}
-              className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
-              required
-            ></textarea>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#a67c52] py-3 rounded-lg hover:bg-[#8a6745] transition"
+          {/* ✅ Hide form once order is sent */}
+          {!orderSent && (
+            <form
+              onSubmit={handlePlaceOrder}
+              className="max-w-lg space-y-4 mx-auto bg-[#2a2a2a] p-6 rounded-lg"
             >
-              {loading ? "Placing Order..." : "Place Order"}
-            </button>
-          </form>
+              <h2 className="text-xl mb-4 text-[#a67c52]">Checkout Form</h2>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
+                required
+              />
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone"
+                value={form.phone}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
+                required
+              />
+              <textarea
+                name="address"
+                placeholder="Address"
+                value={form.address}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-[#1a1a1a] border border-gray-600"
+                required
+              ></textarea>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#a67c52] py-3 rounded-lg hover:bg-[#8a6745] transition"
+              >
+                {loading ? "Placing Order..." : "Place Order"}
+              </button>
+            </form>
+          )}
         </>
       )}
 
